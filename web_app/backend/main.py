@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import tensorflow as tf
+import base64
+
 
 # Constants
 IMAGE_HEIGHT = 28
@@ -22,11 +24,21 @@ def root():
     return {"message": "Backend is running"}
 
 def preprocess_image(image_data: str) -> tf.Tensor:
-    # Remove the data URL prefix.
-    image_data = image_data.split(",")[1]
 
-    # Convert the base64 string to a numpy array and reshape it to the expected input shape for the model.
-    image_bytes = tf.io.decode_base64(image_data)
+    # Remove the data URL prefix. Not sure if I need this, but I'll keep it commented out just in case.
+    #image_data = image_data.split(",")[1]
+
+    # Clean whitespace and escaped characters
+    image_data = (
+        image_data
+        .replace("\n", "")
+        .replace("\r", "")
+        .replace(" ", "")
+        .replace("\\/", "/")
+    )
+
+    # Convert the cleaned base64 string to bytes. The base64.b64decode function will handle any necessary padding.
+    image_bytes = base64.b64decode(image_data)
 
     # Decode PNG to tensor. The 'channels=1' argument ensures that the image is treated as grayscale, which is appropriate for MNIST data.
     image = tf.io.decode_png(image_bytes, channels=1)
