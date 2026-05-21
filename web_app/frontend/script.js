@@ -11,7 +11,7 @@ const context = canvas.getContext("2d");
 context.fillStyle = "white";
 context.strokeStyle = "white";
 context.lineCap = "round";
-context.lineWidth = 5;
+context.lineWidth = 15;
 
 let isDrawing = false;
 let lastX = 0;
