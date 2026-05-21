@@ -22,7 +22,12 @@ app = FastAPI()
 # Needed to allow for CORS (Cross-Origin Resource Sharing) so that the frontend can communicate with the backend without issues.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://digit-identifier-kgto.onrender.com"],
+    allow_origins=[
+        "http://127.0.0.1:3000",            # local dev
+        "http://localhost:3000",
+        "https://mac-hawkins.github.io",    # my repo / pages
+        "https://mac-hawkins.github.io/digit_identifier/"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
