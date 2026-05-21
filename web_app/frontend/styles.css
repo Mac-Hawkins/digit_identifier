@@ -1,0 +1,41 @@
+.title {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.backend-status-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#backend-status {
+  font-size: 18px;
+  background-color: yellow;
+  display: inline-block;
+  padding: 10px;
+}
+
+/* The width and height of the canvas here is for how large it appears on the page, not the internal pixel grid. */
+#drawing-canvas {
+  width: 560px;
+  height: 560px;
+  background-color: black;
+  touch-action: none; /* prevents scrolling on touch devices */
+  align-self: center;
+}
+
+#predict-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: center;
+}

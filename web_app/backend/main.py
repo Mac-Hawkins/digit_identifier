@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import tensorflow as tf
 import base64
-
+from fastapi.middleware.cors import CORSMiddleware
 
 # Constants
 IMAGE_HEIGHT = 28
@@ -19,7 +19,16 @@ model = tf.keras.models.load_model('models/mnist_cnn_model/mnist_cnn_model.keras
 
 app = FastAPI()
 
-@app.get("/")
+# Needed to allow for CORS (Cross-Origin Resource Sharing) so that the frontend can communicate with the backend without issues.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://digit-identifier-kgto.onrender.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/status")
 def root():
     return {"message": "Backend is running"}
 

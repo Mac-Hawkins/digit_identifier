@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Digit Identifier</title>
+  </head>
+  <body>
+    <h1 class="title">Digit Identifier</h1>
+    <div class="canvas-container">
+      <!-- I have to specify the canvas width and height here, as it will specify the actual pixel grid size and needs to be specified in HTML, not CSS. -->
+      <canvas id="drawing-canvas" width="560" height="560"></canvas>
+      <button id="predict-button">Predict</button>
+      <div class="backend-status-container">
+        <p id="backend-status">Checking backend status...please wait</p>
+      </div>
+    </div>
+    <div class="result-container">
+      <h2 id="prediction-result-heading">Prediction Result:</h2>
+      <p id="prediction-result">
+        Draw a digit from 0-9 and click the "Predict" button to see the result
+        of the machine learning model.
+      </p>
+      <p>
+        Note: It may take a minute for the backend server to start up and load
+        the model before making the prediction.
+      </p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
