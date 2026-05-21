@@ -25,11 +25,20 @@
 
 /* The width and height of the canvas here is for how large it appears on the page, not the internal pixel grid. */
 #drawing-canvas {
-  width: 560px;
-  height: 560px;
+  width: 560px; /* 20 x MNIST width (28) */
+  height: 560px; /* 20 x MNIST height (28) */
   background-color: black;
   touch-action: none; /* prevents scrolling on touch devices */
   align-self: center;
+}
+
+/* For mobile devices, we want the canvas to be smaller so it fits better on the screen. */
+@media only screen and (max-width: 560px) {
+  #drawing-canvas {
+    width: 280px; /* 10 x MNIST width (28) */
+    height: 280px; /* 10 x MNIST height (28) */
+    touch-action: none; /* prevents scrolling on touch devices */
+  }
 }
 
 #predict-button {

@@ -4,6 +4,15 @@ const predictButton = document.getElementById("predict-button");
 const predictionParagraph = document.getElementById("prediction-result");
 const predictionHeading = document.getElementById("prediction-result-heading");
 
+// Update canvas size based on screen width for better mobile experience.
+if (window.innerWidth < 560) {
+  canvas.width = 280;
+  canvas.height = 280;
+} else {
+  canvas.width = 560;
+  canvas.height = 560;
+}
+
 // Gets the context for drawing on the canvas
 const context = canvas.getContext("2d");
 
@@ -11,7 +20,7 @@ const context = canvas.getContext("2d");
 context.fillStyle = "white";
 context.strokeStyle = "white";
 context.lineCap = "round";
-context.lineWidth = 15;
+context.lineWidth = 25;
 
 let isDrawing = false;
 let lastX = 0;
@@ -38,7 +47,8 @@ window.addEventListener("load", async () => {
   predictButton.disabled = true;
 
   const statusText = document.getElementById("backend-status");
-  statusText.innerText = "Waking up backend…please wait";
+  statusText.innerText =
+    "Waking up backend…please wait...may take up to 2 mins.";
 
   let ready = false;
 
