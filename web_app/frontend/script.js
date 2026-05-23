@@ -18,12 +18,14 @@ function updateCanvasSize() {
   // Re-retrieve the context for drawing on the canvas
   context = canvas.getContext("2d");
 
-  // Sets the drawing style on the canvas
-  // TODO: Change line width based on pixel grid size?
-  context.fillStyle = "white";
+  // Fill the canvas with a consistent black background first.
+  context.fillStyle = "black";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Sets the drawing style on the canvas.
   context.strokeStyle = "white";
   context.lineCap = "round";
-  context.lineWidth = 25;
+  context.lineWidth = canvas.width / 10;
 }
 
 // Run on startup.
@@ -105,7 +107,12 @@ function recordLastCanvasCoordinates(x, y) {
 }
 
 function clearCanvas() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  // Fill the canvas with a consistent black background.
+  // Apparently just clearing the canvas will make it internally use a transparent background,
+  // even though it will appear black due to the CSS styling.
+  // So we need to explicitly fill it with black.
+  context.fillStyle = "black";
+  context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function drawCanvasLine(x1, y1, x2, y2) {
