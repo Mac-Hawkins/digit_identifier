@@ -79,5 +79,6 @@ def predict(image: Image):
     # Get the index of the highest probability, which corresponds to its predicted digit.
     most_likely_digit = tf.argmax(prediction, axis=1).numpy()[0]
     predicted_digit = int(most_likely_digit)
+    confidence = round(float(tf.reduce_max(prediction).numpy()), 2)
 
-    return {"prediction": predicted_digit}
+    return {"prediction": predicted_digit, "confidence": confidence}

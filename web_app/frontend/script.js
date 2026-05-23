@@ -1,26 +1,33 @@
 // Get references to HTML elements
 const canvas = document.getElementById("drawing-canvas");
 const predictButton = document.getElementById("predict-button");
-const predictionParagraph = document.getElementById("prediction-result");
-const predictionHeading = document.getElementById("prediction-result-heading");
-
-// Update canvas size based on screen width for better mobile experience.
-if (window.innerWidth < 560) {
-  canvas.width = 280;
-  canvas.height = 280;
-} else {
-  canvas.width = 560;
-  canvas.height = 560;
-}
+const clearButton = document.getElementById("clear-button");
+const predictionResult = document.getElementById("prediction-result");
+const predictionConfidence = document.getElementById("prediction-confidence");
+const mediaQuery = window.matchMedia("(max-width: 560px)");
 
 // Gets the context for drawing on the canvas
-const context = canvas.getContext("2d");
+let context = canvas.getContext("2d");
 
-// Sets the drawing style on the canvas
-context.fillStyle = "white";
-context.strokeStyle = "white";
-context.lineCap = "round";
-context.lineWidth = 25;
+// Update the canvas size when the window is resized
+function updateCanvasSize() {
+  // Update canvas internal pixel grid to match the display size.
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+
+  // Re-retrieve the context for drawing on the canvas
+  context = canvas.getContext("2d");
+
+  // Sets the drawing style on the canvas
+  // TODO: Change line width based on pixel grid size?
+  context.fillStyle = "white";
+  context.strokeStyle = "white";
+  context.lineCap = "round";
+  context.lineWidth = 25;
+}
+
+// Run on startup.
+updateCanvasSize();
 
 let isDrawing = false;
 let lastX = 0;
@@ -45,6 +52,7 @@ async function wakeBackend() {
 window.addEventListener("load", async () => {
   // Disable the predict button until the backend is ready.
   predictButton.disabled = true;
+  clearButton.disabled = true;
 
   const statusText = document.getElementById("backend-status");
   statusText.innerText =
@@ -52,7 +60,8 @@ window.addEventListener("load", async () => {
 
   let ready = false;
 
-  // Try for up to ~120 seconds
+  // Begin waking up the backend, and try to get its status
+  // for up to ~120 seconds
   for (let i = 0; i < 40; i++) {
     ready = await wakeBackend();
     if (ready) break;
@@ -65,6 +74,7 @@ window.addEventListener("load", async () => {
 
   if (ready) {
     predictButton.disabled = false;
+    clearButton.disabled = false;
     statusText.style.backgroundColor = "green";
   } else {
     statusText.style.backgroundColor = "red";
@@ -184,12 +194,12 @@ canvas.addEventListener("touchend", () => (isDrawing = false));
 canvas.addEventListener("touchcancel", () => (isDrawing = false));
 
 // -------------------------------
-// Predict Button Event Listener
+// Button Event Listeners
 // -------------------------------
 
 predictButton.addEventListener("click", async () => {
-  //predictionParagraph.textContent = `Predicting...please wait.`;
-  predictionHeading.textContent = `Predicting...please wait.`;
+  predictionResult.textContent = "Predicting...please wait.";
+  predictionConfidence.textContent = "Predicting...please wait.";
 
   // Should get the pixel data and convert it to a base64 string to send to the backend for prediction.
   const pixelDataBase64 = canvas.toDataURL("image/png").split(",")[1];
@@ -212,11 +222,25 @@ predictButton.addEventListener("click", async () => {
     const result = await response.json();
 
     // Display the prediction result in the paragraph element.
-    //predictionParagraph.textContent = `Predicted Digit: ${result.prediction}`;
-    predictionHeading.textContent = `Prediction Result: ${result.prediction}`;
+    predictionResult.textContent = `Prediction: ${result.prediction}`;
+    predictionConfidence.textContent = `Confidence: ${result.confidence}`;
   } catch (error) {
     console.error("Error during prediction:", error);
-    //predictionParagraph.textContent = `Error during prediction: ${error.message}`;
-    predictionHeading.textContent = `Error during prediction: ${error.message}`;
+    predictionResult.textContent = `Error during prediction: ${error.message}`;
+    predictionConfidence.textContent = `Error during prediction: ${error.message}`;
   }
+});
+
+clearButton.addEventListener("click", () => {
+  clearCanvas();
+  predictionResult.textContent = "Prediction:";
+  predictionConfidence.textContent = "Confidence:";
+});
+
+// -------------------------------
+// Media Query Listeners
+// -------------------------------
+
+mediaQuery.addEventListener("change", (event) => {
+  updateCanvasSize();
 });

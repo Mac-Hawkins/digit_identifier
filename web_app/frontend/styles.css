@@ -1,7 +1,20 @@
+/* heading elements */
 .title {
   font-family: "Arial", sans-serif;
   text-align: center;
   margin-top: 20px;
+}
+
+.centered-heading {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* div elements */
+.header-container {
+  text-align: center;
+  margin-top: 20px;
+  background-color: "black";
 }
 
 .canvas-container {
@@ -11,11 +24,27 @@
   margin-top: 20px;
 }
 
+.horizontal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin-top: 10px;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: row;
+  gap: 90px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .backend-status-container {
   text-align: center;
   margin-top: 20px;
 }
 
+/* p elements */
 #backend-status {
   font-size: 18px;
   background-color: yellow;
@@ -23,6 +52,18 @@
   padding: 10px;
 }
 
+.instructions-text {
+  text-align: center;
+  margin: 20px;
+}
+
+.prediction-info {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Canvas elements */
 /* The width and height of the canvas here is for how large it appears on the page, not the internal pixel grid. */
 #drawing-canvas {
   width: 560px; /* 20 x MNIST width (28) */
@@ -32,6 +73,17 @@
   align-self: center;
 }
 
+/* Button elements */
+.canvas-button {
+  width: 100px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: center;
+}
+
+/* Media Queries */
 /* For mobile devices, we want the canvas to be smaller so it fits better on the screen. */
 @media only screen and (max-width: 560px) {
   #drawing-canvas {
@@ -39,12 +91,4 @@
     height: 280px; /* 10 x MNIST height (28) */
     touch-action: none; /* prevents scrolling on touch devices */
   }
-}
-
-#predict-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  align-self: center;
 }
