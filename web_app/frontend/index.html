@@ -9,6 +9,7 @@
   <body>
     <div class="header-container">
       <h1 class="title">Digit Identifier</h1>
+      <p><b>This site is a work in progress.</b></p>
       <image
         src="https://upload.wikimedia.org/wikipedia/commons/b/b1/MNIST_dataset_example.png"
         alt="MNIST dataset background image showing examples of handwritten digits"
@@ -19,19 +20,22 @@
       <h2 class="centered-heading">Draw a Digit</h2>
       <!-- I have to specify the canvas width and height here, as it will specify the actual pixel grid size and needs to be specified in HTML, not CSS. -->
       <canvas id="drawing-canvas"></canvas>
-      <div class="horizontal-buttons">
-        <button id="predict-button" class="canvas-button">Predict</button>
-        <button id="clear-button" class="canvas-button">Clear</button>
-      </div>
-      <div class="results-container">
-        <p id="prediction-result" class="prediction-info">Prediction:</p>
-        <p id="prediction-confidence" class="prediction-info">Confidence:</p>
-      </div>
-      <div class="backend-status-container">
-        <p id="backend-status">Checking backend status...please wait</p>
+      <div class="submission-container">
+        <div class="horizontal-buttons">
+          <button id="predict-button" class="canvas-button">Predict</button>
+          <button id="clear-button" class="canvas-button">Clear</button>
+        </div>
+        <div class="prediction-container">
+          <p id="prediction-result" class="prediction-info">Prediction:</p>
+          <p id="prediction-confidence" class="prediction-info">Confidence:</p>
+        </div>
+        <div class="backend-status-container">
+          <p id="backend-status">Checking backend status...please wait</p>
+          <div class="spinner"></div>
+        </div>
       </div>
     </div>
-    <div class="result-container">
+    <div class="instructions-container">
       <h2 class="centered-heading">Instructions</h2>
       <p class="instructions-text">
         Draw a digit from 0-9 in the black canvas above and click the "Predict"
@@ -39,7 +43,8 @@
       </p>
       <p class="instructions-text">
         Note: It may take a minute for the backend server to start up and load
-        the model before making the prediction.
+        the model before making the prediction. I may change this in the future
+        to run the prediction purely in JavaScript on the frontend to save time.
       </p>
     </div>
     <script src="script.js"></script>

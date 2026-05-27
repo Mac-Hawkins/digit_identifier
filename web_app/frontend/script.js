@@ -5,6 +5,8 @@ const clearButton = document.getElementById("clear-button");
 const predictionResult = document.getElementById("prediction-result");
 const predictionConfidence = document.getElementById("prediction-confidence");
 const mediaQuery = window.matchMedia("(max-width: 560px)");
+const statusText = document.getElementById("backend-status");
+const spinner = document.querySelector(".spinner");
 
 // Gets the context for drawing on the canvas
 let context = canvas.getContext("2d");
@@ -39,6 +41,16 @@ let lastY = 0;
 // Try to start Render server when the page loads.
 // -------------------------------
 
+function updateStatusTimer(timeRemaining) {
+  let minutes = Math.floor(timeRemaining / 60);
+  let seconds = timeRemaining % 60;
+  statusText.innerText =
+    "Waking up backend. Please wait. May take up to 2 mins. \n Timer: " +
+    minutes +
+    ":" +
+    seconds.toString().padStart(2, "0");
+}
+
 async function wakeBackend() {
   try {
     const response = await fetch(
@@ -56,11 +68,20 @@ window.addEventListener("load", async () => {
   predictButton.disabled = true;
   clearButton.disabled = true;
 
-  const statusText = document.getElementById("backend-status");
-  statusText.innerText =
-    "Waking up backend…please wait...may take up to 2 mins.";
+  let timeRemaining = 120;
+  updateStatusTimer(timeRemaining);
 
   let ready = false;
+
+  // Start countdown timer to update the status text every second while waiting for the backend to wake up.
+  const countdown = setInterval(() => {
+    timeRemaining -= 1;
+    updateStatusTimer(timeRemaining);
+
+    if (timeRemaining <= 0) {
+      clearInterval(countdown);
+    }
+  }, 1000);
 
   // Begin waking up the backend, and try to get its status
   // for up to ~120 seconds
@@ -70,6 +91,15 @@ window.addEventListener("load", async () => {
     await new Promise((r) => setTimeout(r, 3000)); // wait 3 seconds
   }
 
+  // Stop countdown when backend is ready or attempts end
+  clearInterval(countdown);
+
+  // Remove the spinner.
+  if (spinner) {
+    spinner.style.display = "none";
+  }
+
+  //  Update the status text based on whether the backend is ready or not
   statusText.innerText = ready
     ? "Backend is online"
     : "Backend is not responding";
