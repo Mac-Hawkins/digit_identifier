@@ -1,8 +1,21 @@
+/* Global elements   */
+/* Mainly used so parallax image is full width and flush with top*/
+html,
+body {
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 /* heading elements */
 .title {
-  font-family: "Arial", sans-serif;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  font-size: 48px;
   text-align: center;
   margin-top: 20px;
+  color: white;
+  text-shadow: 0 0 10px rgba(128, 255, 255, 0.8);
 }
 
 .centered-heading {
@@ -14,7 +27,24 @@
 .header-container {
   text-align: center;
   margin-top: 20px;
-  background-color: "black";
+  background-color: rgba(0, 0, 0, 0.97);
+  width: 100%;
+}
+
+.parallax-container {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b1/MNIST_dataset_example.png");
+
+  /* This makes the background image fixed in place, creating a parallax effect when scrolling. */
+  background-attachment: fixed;
+
+  /* The background image is centered, not repeated, and covers the entire container. */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #000;
+  height: 900px;
+  display: grid;
+  place-items: center;
 }
 
 .canvas-container {
@@ -32,10 +62,9 @@
 }
 
 .submission-container {
-  margin-top: 20px;
-  border: 1px solid black;
+  border: 2px solid black;
   width: 500px;
-  margin: 10px auto;
+  margin: 40px auto;
 }
 
 .prediction-container {
@@ -61,7 +90,13 @@
   margin: 0px auto 10px auto;
 }
 
+.instructions-container {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 /* keyframes */
+/* This is for the loading spinner animation. It rotates the spinner 360 degrees continuously. */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -69,6 +104,13 @@
 }
 
 /* p elements */
+#work-in-progress {
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  color: white;
+  padding: 10px;
+}
+
 #backend-status {
   font-size: 18px;
   background-color: yellow;
@@ -79,6 +121,7 @@
 .instructions-text {
   text-align: center;
   margin: 20px;
+  font-size: 18px;
 }
 
 .prediction-info {

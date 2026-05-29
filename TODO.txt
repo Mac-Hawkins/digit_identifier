@@ -3,9 +3,7 @@ TODO
 1. Convert the CNN prediction to run on the frontend JS instead. It 
    takes too long to wait for the backend server to wake due to free tier.
 
-2. Implement parallax of MNIST image.
-
-3. Improve UI.
+2. Improve UI.
 
 4. Improve model accuracy for 7 and 9.
 

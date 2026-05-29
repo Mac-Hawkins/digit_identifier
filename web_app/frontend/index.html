@@ -7,18 +7,14 @@
     <title>Digit Identifier</title>
   </head>
   <body>
-    <div class="header-container">
-      <h1 class="title">Digit Identifier</h1>
-      <p><b>This site is a work in progress.</b></p>
-      <image
-        src="https://upload.wikimedia.org/wikipedia/commons/b/b1/MNIST_dataset_example.png"
-        alt="MNIST dataset background image showing examples of handwritten digits"
-        class="mnist-image"
-      />
+    <div class="parallax-container">
+      <div class="header-container">
+        <h1 class="title">Digit Identifier</h1>
+        <p id="work-in-progress"><b>This site is a work in progress.</b></p>
+      </div>
     </div>
     <div class="canvas-container">
       <h2 class="centered-heading">Draw a Digit</h2>
-      <!-- I have to specify the canvas width and height here, as it will specify the actual pixel grid size and needs to be specified in HTML, not CSS. -->
       <canvas id="drawing-canvas"></canvas>
       <div class="submission-container">
         <div class="horizontal-buttons">
