@@ -235,8 +235,8 @@ canvas.addEventListener("touchcancel", () => (isDrawing = false));
 // -------------------------------
 
 predictButton.addEventListener("click", async () => {
-  predictionResult.textContent = "Predicting...please wait.";
-  predictionConfidence.textContent = "Predicting...please wait.";
+  predictionResult.textContent = "Predicting...";
+  predictionConfidence.textContent = "Predicting...";
 
   // Should get the pixel data and convert it to a base64 string to send to the backend for prediction.
   const pixelDataBase64 = canvas.toDataURL("image/png").split(",")[1];
