@@ -45,7 +45,7 @@ function updateStatusTimer(timeRemaining) {
   let minutes = Math.floor(timeRemaining / 60);
   let seconds = timeRemaining % 60;
   statusText.innerText =
-    "Waking up backend. Please wait. May take up to 2 mins. \n Timer: " +
+    "Waking up backend. Please wait. May take up to 1 minute. \n Timer: " +
     minutes +
     ":" +
     seconds.toString().padStart(2, "0");
@@ -68,7 +68,7 @@ window.addEventListener("load", async () => {
   predictButton.disabled = true;
   clearButton.disabled = true;
 
-  let timeRemaining = 120;
+  let timeRemaining = 60;
   updateStatusTimer(timeRemaining);
 
   let ready = false;
@@ -84,8 +84,8 @@ window.addEventListener("load", async () => {
   }, 1000);
 
   // Begin waking up the backend, and try to get its status
-  // for up to ~120 seconds
-  for (let i = 0; i < 40; i++) {
+  // for up to ~60 seconds
+  for (let i = 0; i < 20; i++) {
     ready = await wakeBackend();
     if (ready) break;
     await new Promise((r) => setTimeout(r, 3000)); // wait 3 seconds
