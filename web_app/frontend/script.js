@@ -1,3 +1,5 @@
+import { predictDigit, loadModel } from "./model.js";
+
 // Get references to HTML elements
 const canvas = document.getElementById("drawing-canvas");
 const predictButton = document.getElementById("predict-button");
@@ -37,82 +39,8 @@ let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 
-// -------------------------------
-// Try to start Render server when the page loads.
-// -------------------------------
-
-function updateStatusTimer(timeRemaining) {
-  let minutes = Math.floor(timeRemaining / 60);
-  let seconds = timeRemaining % 60;
-  statusText.innerText =
-    "Waking up backend. Please wait. May take up to 1 minute. \n Timer: " +
-    minutes +
-    ":" +
-    seconds.toString().padStart(2, "0");
-}
-
-async function wakeBackend() {
-  try {
-    const response = await fetch(
-      "https://digit-identifier-kgto.onrender.com/status",
-    );
-    return response.ok;
-  } catch (error) {
-    console.error("Error waking backend:", error);
-    return false;
-  }
-}
-
 window.addEventListener("load", async () => {
-  // Disable the predict button until the backend is ready.
-  predictButton.disabled = true;
-  clearButton.disabled = true;
-
-  let timeRemaining = 60;
-  updateStatusTimer(timeRemaining);
-
-  let ready = false;
-
-  // Start countdown timer to update the status text every second while waiting for the backend to wake up.
-  const countdown = setInterval(() => {
-    timeRemaining -= 1;
-    updateStatusTimer(timeRemaining);
-
-    if (timeRemaining <= 0) {
-      clearInterval(countdown);
-    }
-  }, 1000);
-
-  // Begin waking up the backend, and try to get its status
-  // for up to ~60 seconds
-  for (let i = 0; i < 20; i++) {
-    ready = await wakeBackend();
-    if (ready) break;
-    await new Promise((r) => setTimeout(r, 3000)); // wait 3 seconds
-  }
-
-  // Stop countdown when backend is ready or attempts end
-  clearInterval(countdown);
-
-  // Remove the spinner.
-  if (spinner) {
-    spinner.style.display = "none";
-  }
-
-  //  Update the status text based on whether the backend is ready or not
-  statusText.innerText = ready
-    ? "Backend is online"
-    : "Backend is not responding";
-
-  if (ready) {
-    predictButton.disabled = false;
-    clearButton.disabled = false;
-    statusText.style.backgroundColor = "green";
-  } else {
-    statusText.style.backgroundColor = "red";
-  }
-
-  console.log("Backend ready:", ready);
+  await loadModel();
 });
 
 // -------------------------------
@@ -123,8 +51,6 @@ window.addEventListener("load", async () => {
 // so I need to calculate where the mouse is inside of the canvas relative to the entire webpage.
 function getCanvasCoordinates(event) {
   const canvasRect = canvas.getBoundingClientRect();
-  console.log("canvas left:", canvasRect.left, "canvas top:", canvasRect.top);
-  console.log("clientX:", event.clientX, "clientY:", event.clientY);
   return {
     x: event.clientX - canvasRect.left,
     y: event.clientY - canvasRect.top,
@@ -238,28 +164,11 @@ predictButton.addEventListener("click", async () => {
   predictionResult.textContent = "Predicting...";
   predictionConfidence.textContent = "Predicting...";
 
-  // Should get the pixel data and convert it to a base64 string to send to the backend for prediction.
-  const pixelDataBase64 = canvas.toDataURL("image/png").split(",")[1];
-
   try {
-    const response = await fetch(
-      "https://digit-identifier-kgto.onrender.com/predict",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: pixelDataBase64 }),
-      },
-    );
-
-    if (!response.ok) {
-      console.error("Prediction request failed:", response.statusText);
-      return;
-    }
-
-    const result = await response.json();
+    const result = await predictDigit();
 
     // Display the prediction result in the paragraph element.
-    predictionResult.textContent = `Prediction: ${result.prediction}`;
+    predictionResult.textContent = `Prediction: ${result.class}`;
     predictionConfidence.textContent = `Confidence: ${result.confidence}`;
   } catch (error) {
     console.error("Error during prediction:", error);

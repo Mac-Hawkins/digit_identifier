@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- Need to use this script to use tensorflow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <title>Digit Identifier</title>
   </head>
   <body>
@@ -25,10 +27,6 @@
           <p id="prediction-result" class="prediction-info">Prediction:</p>
           <p id="prediction-confidence" class="prediction-info">Confidence:</p>
         </div>
-        <div class="backend-status-container">
-          <p id="backend-status">Checking backend status...please wait</p>
-          <div class="spinner"></div>
-        </div>
       </div>
     </div>
     <div class="instructions-container">
@@ -43,6 +41,6 @@
         to run the prediction purely in JavaScript on the frontend to save time.
       </p>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
