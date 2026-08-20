@@ -90,11 +90,6 @@ body {
   margin: 0px auto 10px auto;
 }
 
-.instructions-container {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
 /* keyframes */
 /* This is for the loading spinner animation. It rotates the spinner 360 degrees continuously. */
 @keyframes spin {
@@ -104,13 +99,6 @@ body {
 }
 
 /* p elements */
-#work-in-progress {
-  font-family: "Courier New", monospace;
-  font-size: 18px;
-  color: white;
-  padding: 10px;
-}
-
 #backend-status {
   font-size: 18px;
   background-color: yellow;
@@ -150,13 +138,6 @@ body {
   align-self: center;
 }
 
-/* Image elements */
-.mnist-image {
-  width: 560px;
-  height: auto;
-  margin-top: 20px;
-}
-
 /* Media Queries */
 /* For mobile devices, we want the canvas to be smaller so it fits better on the screen. */
 @media only screen and (max-width: 560px) {
@@ -171,10 +152,5 @@ body {
   }
   .prediction-info {
     font-size: 16px;
-  }
-
-  .mnist-image {
-    width: 90%;
-    height: auto;
   }
 }
