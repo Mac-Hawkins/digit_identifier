@@ -42,7 +42,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #000;
-  height: 900px;
+  height: 600px;
   display: grid;
   place-items: center;
 }
